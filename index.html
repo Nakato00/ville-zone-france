@@ -28,14 +28,11 @@
 <body>
   <h1>Quelle zone pour votre ville ?</h1>
   <input id="villeInput" type="text" placeholder="Entrez une ville française" />
-  <button onclick="trouverZone()">Voir la zone</button>
+  <button id="btnVoirZone">Voir la zone</button>
   <p id="resultat"></p>
 
   <script>
-    // Liste simplifiée des villes françaises et leur zone géographique
-    // Zones : Nord, Sud, Est, Ouest, Centre
     const zones = {
-      // Nord
       "lille": "Nord",
       "roubaix": "Nord",
       "tourcoing": "Nord",
@@ -47,7 +44,6 @@
       "strasbourg": "Nord",
       "nancy": "Nord",
 
-      // Sud
       "marseille": "Sud",
       "toulouse": "Sud",
       "nice": "Sud",
@@ -59,7 +55,6 @@
       "ajaccio": "Sud",
       "bayonne": "Sud",
 
-      // Est
       "strasbourg": "Est",
       "metz": "Est",
       "nancy": "Est",
@@ -67,17 +62,15 @@
       "mulhouse": "Est",
       "colmar": "Est",
 
-      // Ouest
       "nantes": "Ouest",
       "rennes": "Ouest",
-      "saint malo": "Ouest",
+      "Saint-Malo": "Ouest",
       "caen": "Ouest",
       "le mans": "Ouest",
       "angers": "Ouest",
       "brest": "Ouest",
       "quimper": "Ouest",
 
-      // Centre
       "paris": "Centre",
       "orleans": "Centre",
       "chartres": "Centre",
@@ -85,29 +78,35 @@
       "clermont-ferrand": "Centre",
       "dijon": "Centre",
       "auxerre": "Centre",
-      "auxerre": "Centre",
       "chateauroux": "Centre",
       "nevers": "Centre",
 
-      // Sud-Ouest (mix entre Sud et Ouest, on peut rajouter une zone spécifique)
       "bordeaux": "Sud-Ouest",
       "pau": "Sud-Ouest",
       "agen": "Sud-Ouest",
       "tarbes": "Sud-Ouest",
       "toulon": "Sud-Est",
 
-      // Sud-Est (pour précision)
       "lyon": "Sud-Est",
       "grenoble": "Sud-Est",
       "annecy": "Sud-Est",
       "valence": "Sud-Est",
       "chambery": "Sud-Est"
     };
-    
+
+    function nettoyerNom(ville) {
+      return ville
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-zA-Z\s]/g, "")
+        .toLowerCase()
+        .trim();
+    }
+
     function trouverZone() {
       const villeInput = document.getElementById("villeInput");
       const resultat = document.getElementById("resultat");
-      const ville = villeInput.value.trim().toLowerCase();
+      const ville = nettoyerNom(villeInput.value);
 
       if (!ville) {
         resultat.textContent = "Veuillez entrer le nom d'une ville.";
@@ -117,14 +116,23 @@
       if (zones[ville]) {
         resultat.textContent = `La ville de ${capitalize(ville)} est dans la zone : ${zones[ville]}.`;
       } else {
-        resultat.textContent = "Ville non reconnue. Essaie avec une autre ville principale française.";
+        resultat.textContent = "Ville non reconnue. Essaie une ville principale.";
       }
     }
 
-    // Fonction pour mettre la première lettre en majuscule
     function capitalize(str) {
       return str.charAt(0).toUpperCase() + str.slice(1);
     }
+
+    // Écoute le clic sur le bouton
+    document.getElementById("btnVoirZone").addEventListener("click", trouverZone);
+
+    // Écoute la touche "Entrée" dans le champ input
+    document.getElementById("villeInput").addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        trouverZone();
+      }
+    });
   </script>
 </body>
 </html>
