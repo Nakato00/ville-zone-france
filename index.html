@@ -102,6 +102,14 @@
       "valence": "Sud-Est",
       "chambery": "Sud-Est"
     };
+function nettoyerNom(ville) {
+  return ville
+    .normalize("NFD")             // Enlève les accents
+    .replace(/[\u0300-\u036f]/g, "") // Supprime les marques diacritiques
+    .replace(/[^a-zA-Z\s]/g, "")  // Enlève les caractères spéciaux
+    .toLowerCase()               // Minuscule
+    .trim();                     // Supprime les espaces autour
+}
 
     function trouverZone() {
       const villeInput = document.getElementById("villeInput");
