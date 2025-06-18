@@ -103,8 +103,9 @@
       "valence": "Sud-Est",
       "chambery": "Sud-Est"
     };
-function nettoyerNom(ville) {
-  return ville
+    
+    function nettoyerNom(ville) {
+    return ville
     .normalize("NFD")             // Enlève les accents
     .replace(/[\u0300-\u036f]/g, "") // Supprime les marques diacritiques
     .replace(/[^a-zA-Z\s]/g, "")  // Enlève les caractères spéciaux
