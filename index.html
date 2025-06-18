@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>Zone géographique d'une ville en France</title>
+  <title>Zone géographique d'une ville</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -27,79 +27,118 @@
 </head>
 <body>
   <h1>Quelle zone pour votre ville ?</h1>
-  <input id="villeInput" type="text" placeholder="Entrez une ville française" />
+  <input id="villeInput" type="text" placeholder="Entrez une ville" />
   <button id="btnVoirZone">Voir la zone</button>
   <p id="resultat"></p>
 
   <script>
     const zones = {
-      "lille": "Nord",
-      "roubaix": "Nord",
-      "tourcoing": "Nord",
-      "valenciennes": "Nord",
-      "dunkerque": "Nord",
-      "amiens": "Nord",
-      "reims": "Nord",
-      "metz": "Nord",
-      "strasbourg": "Nord",
-      "nancy": "Nord",
+      // France - Nord
+      "lille": "France - Nord",
+      "roubaix": "France - Nord",
+      "tourcoing": "France - Nord",
+      "valenciennes": "France - Nord",
+      "dunkerque": "France - Nord",
+      "amiens": "France - Nord",
+      "reims": "France - Nord",
+      "metz": "France - Nord",
+      "strasbourg": "France - Nord",
+      "nancy": "France - Nord",
 
-      "marseille": "Sud",
-      "toulouse": "Sud",
-      "nice": "Sud",
-      "montpellier": "Sud",
-      "nimes": "Sud",
-      "perpignan": "Sud",
-      "avignon": "Sud",
-      "bastia": "Sud",
-      "ajaccio": "Sud",
-      "bayonne": "Sud",
+      // France - Sud
+      "marseille": "France - Sud",
+      "toulouse": "France - Sud",
+      "nice": "France - Sud",
+      "montpellier": "France - Sud",
+      "nimes": "France - Sud",
+      "perpignan": "France - Sud",
+      "avignon": "France - Sud",
+      "bastia": "France - Sud",
+      "ajaccio": "France - Sud",
+      "bayonne": "France - Sud",
 
-      "strasbourg": "Est",
-      "metz": "Est",
-      "nancy": "Est",
-      "besancon": "Est",
-      "mulhouse": "Est",
-      "colmar": "Est",
+      // France - Est
+      "besancon": "France - Est",
+      "mulhouse": "France - Est",
+      "colmar": "France - Est",
 
-      "nantes": "Ouest",
-      "rennes": "Ouest",
-      "Saint Malo": "Ouest",
-      "caen": "Ouest",
-      "le mans": "Ouest",
-      "angers": "Ouest",
-      "brest": "Ouest",
-      "quimper": "Ouest",
+      // France - Ouest
+      "nantes": "France - Ouest",
+      "rennes": "France - Ouest",
+      "caen": "France - Ouest",
+      "le mans": "France - Ouest",
+      "angers": "France - Ouest",
+      "brest": "France - Ouest",
+      "quimper": "France - Ouest",
 
-      "paris": "Centre",
-      "orleans": "Centre",
-      "chartres": "Centre",
-      "bourges": "Centre",
-      "clermont-ferrand": "Centre",
-      "dijon": "Centre",
-      "auxerre": "Centre",
-      "chateauroux": "Centre",
-      "nevers": "Centre",
+      // France - Centre
+      "paris": "France - Centre",
+      "orleans": "France - Centre",
+      "chartres": "France - Centre",
+      "bourges": "France - Centre",
+      "clermontferrand": "France - Centre",
+      "dijon": "France - Centre",
+      "auxerre": "France - Centre",
+      "chateauroux": "France - Centre",
+      "nevers": "France - Centre",
 
-      "bordeaux": "Sud-Ouest",
-      "pau": "Sud-Ouest",
-      "agen": "Sud-Ouest",
-      "tarbes": "Sud-Ouest",
-      "toulon": "Sud-Est",
+      // France - Sud-Ouest
+      "bordeaux": "France - Sud-Ouest",
+      "pau": "France - Sud-Ouest",
+      "agen": "France - Sud-Ouest",
+      "tarbes": "France - Sud-Ouest",
+      "toulon": "France - Sud-Est",
 
-      "lyon": "Sud-Est",
-      "grenoble": "Sud-Est",
-      "annecy": "Sud-Est",
-      "valence": "Sud-Est",
-      "chambery": "Sud-Est"
+      // France - Sud-Est
+      "lyon": "France - Sud-Est",
+      "grenoble": "France - Sud-Est",
+      "annecy": "France - Sud-Est",
+      "valence": "France - Sud-Est",
+      "chambery": "France - Sud-Est",
+
+      // Espagne
+      "madrid": "Espagne",
+      "barcelona": "Espagne",
+      "sevilla": "Espagne",
+      "valencia": "Espagne",
+      "zaragoza": "Espagne",
+      "malaga": "Espagne",
+      "murcia": "Espagne",
+      "palma": "Espagne",
+      "laspalmas": "Espagne",
+      "bilbao": "Espagne",
+      "alicante": "Espagne",
+      "cordoba": "Espagne",
+      "valladolid": "Espagne",
+      "vigo": "Espagne",
+      "gijon": "Espagne",
+      "lhospitaletdellobregat": "Espagne",
+      "acoruna": "Espagne",
+      "granada": "Espagne",
+      "vitoriagasteiz": "Espagne",
+      "elche": "Espagne",
+      "oviedo": "Espagne",
+      "santacruzdetenerife": "Espagne",
+      "badalona": "Espagne",
+      "cartagena": "Espagne",
+      "terrassa": "Espagne",
+      "jerezdelafrontera": "Espagne",
+
+      // Portugal
+      "lisbonne": "Portugal",
+      "porto": "Portugal",
+      "faro": "Portugal",
+      "coimbra": "Portugal",
+      "braga": "Portugal"
     };
 
     function nettoyerNom(ville) {
       return ville
         .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^a-zA-Z\s]/g, "")
+        .replace(/[\u0300-\u036f]/g, "")  // supprime accents
+        .replace(/[^a-zA-Z\s]/g, "")      // supprime caractères non lettres et espaces
         .toLowerCase()
+        .replace(/\s+/g, "")              // supprime tous les espaces (pour les noms composés)
         .trim();
     }
 
@@ -114,20 +153,18 @@
       }
 
       if (zones[ville]) {
-        resultat.textContent = `La ville de ${capitalize(ville)} est dans la zone : ${zones[ville]}.`;
+        resultat.textContent = `La ville de ${capitalize(villeInput.value)} est dans le pays/zone : ${zones[ville]}.`;
       } else {
-        resultat.textContent = "Ville non reconnue. Essaie une ville principale.";
+        resultat.textContent = "Ville non reconnue. Essaie une ville principale de France, Espagne ou Portugal.";
       }
     }
 
     function capitalize(str) {
-      return str.charAt(0).toUpperCase() + str.slice(1);
+      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     }
 
-    // Écoute le clic sur le bouton
     document.getElementById("btnVoirZone").addEventListener("click", trouverZone);
 
-    // Écoute la touche "Entrée" dans le champ input
     document.getElementById("villeInput").addEventListener("keydown", function(event) {
       if (event.key === "Enter") {
         trouverZone();
